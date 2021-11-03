@@ -9,6 +9,9 @@ OBJS= \
 aiger.o \
 simpaig.o
 
+LIBS= \
+libaiger.a
+
 BINS= \
 aigand \
 aigdd \
@@ -41,7 +44,7 @@ wrapstim \
 @AIGDEPTARGET@ \
 @AIGBMCTARGET@
 
-TARGETS=$(OBJS) $(BINS)
+TARGETS=$(OBJS) $(LIBS) $(BINS)
 
 all: $(TARGETS)
 
@@ -125,6 +128,9 @@ soltostim: aiger.o soltostim.o makefile
 	$(CC) $(CFLAGS) -o $@ soltostim.o aiger.o
 wrapstim: aiger.o wrapstim.o makefile
 	$(CC) $(CFLAGS) -o $@ wrapstim.o aiger.o
+
+libaiger.a: aiger.o makefile
+	ar rvs $@ aiger.o
 
 aigbmc.o: aiger.h aigbmc.c makefile @AIGBMCHDEPS@
 	$(CC) @AIGBMCFLAGS@ -c aigbmc.c
